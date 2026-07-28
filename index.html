@@ -11,24 +11,36 @@
       color: #ffffff;
       max-width: 800px;
       margin: 0 auto;
-      padding: 15px;
+      padding: 10px;
     }
 
-    h1, h2 { text-align: center; color: #00d4ff; }
+    h1 { 
+      text-align: center; 
+      color: #00d4ff; 
+      font-size: 1.4rem; 
+      margin: 15px 0;
+    }
+
+    h2 { 
+      text-align: center; 
+      color: #00d4ff; 
+      font-size: 1.2rem; 
+      margin-top: 0;
+    }
 
     .card {
       background-color: #202024;
-      padding: 20px;
+      padding: 15px 10px;
       border-radius: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
 
     input, select, button {
       width: 100%;
@@ -38,6 +50,7 @@
       background-color: #121214;
       color: #fff;
       box-sizing: border-box;
+      font-size: 0.9rem;
     }
 
     button.btn-principal {
@@ -54,56 +67,66 @@
     .aviso-pix {
       text-align: center;
       color: #ffffff;
-      font-size: 0.9em;
-      margin-top: 10px;
+      font-size: 0.85rem;
+      margin-top: 8px;
       font-weight: 500;
     }
 
-    /* Ajuste para rolagem e visualização em celular */
+    /* AJUSTE RESPONSIVO DA TABELA PARA CELULAR */
     .table-responsive {
       width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow-x: hidden; /* Remove rolagem lateral para enquadrar na tela */
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      min-width: 550px;
+      table-layout: fixed; /* Força enquadramento perfeito na tela */
     }
 
     th, td {
-      padding: 12px;
-      text-align: left;
+      padding: 8px 4px;
+      text-align: center;
       border-bottom: 1px solid #323238;
+      word-wrap: break-word;
+      font-size: 0.82rem;
     }
 
     th { background-color: #29292e; color: #00d4ff; }
 
+    /* Larguras das colunas otimizadas para smartphone */
+    th:nth-child(1), td:nth-child(1) { width: 12%; } /* Pos */
+    th:nth-child(2), td:nth-child(2) { width: 30%; } /* Nick */
+    th:nth-child(3), td:nth-child(3) { width: 28%; } /* Elemental */
+    th:nth-child(4), td:nth-child(4) { width: 30%; } /* Chamadas/Status */
+
     .admin-controls {
       display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
     }
 
     /* ESTILOS PADRONIZADOS (PÍLULAS DE STATUS E BOTÕES TEMÁTICOS) */
     .badge-base {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
+      justify-content: center;
+      gap: 4px;
+      padding: 4px 8px;
       border-radius: 20px;
-      font-size: 0.85em;
+      font-size: 0.75rem;
       font-weight: bold;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
 
     .bolinha {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       display: inline-block;
+      flex-shrink: 0;
     }
 
     /* STATUS: AGORA (VERDE) */
@@ -142,12 +165,13 @@
       box-shadow: 0 0 8px #a855f7;
     }
 
-    /* BOTÕES DO MODO ADMIN */
+    /* BOTÕES DO MODO ADMIN COMPACTOS */
     .btn-action {
       cursor: pointer;
-      width: auto;
-      margin-right: 2px;
-      margin-bottom: 2px;
+      width: 100%;
+      margin: 2px 0;
+      padding: 3px 6px;
+      font-size: 0.7rem;
     }
 
     .btn-action.btn-chamar {
@@ -362,7 +386,7 @@
   <!-- TABELA DA FILA -->
   <div class="card">
     <div class="admin-controls">
-      <button id="btnAdmin" class="btn-principal" style="width: auto;" onclick="toggleAdmin()">Entrar como Host / Admin</button>
+      <button id="btnAdmin" class="btn-principal" style="width: auto; padding: 8px 15px;" onclick="toggleAdmin()">Entrar como Host / Admin</button>
     </div>
     
     <h2>Fila Atual</h2>
@@ -370,10 +394,10 @@
       <table>
         <thead>
           <tr>
-            <th>Posição</th>
+            <th>Pos</th>
             <th>Nickname</th>
             <th>Elemental</th>
-            <th>Chamadas</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody id="tabelaFila">
@@ -441,9 +465,7 @@
           });
         });
 
-        // Ordenação inteligente: 
-        // 1. Quem furou a fila vem primeiro (ordenado por quem furou antes)
-        // 2. Depois vem a fila normal (ordenado por ordem de inscrição)
+        // Ordenação inteligente
         itens.sort((a, b) => {
           if (a.data.furaFila && !b.data.furaFila) return -1;
           if (!a.data.furaFila && b.data.furaFila) return 1;
@@ -498,23 +520,15 @@
           if (jogador.chamado) {
             acoesHTML = `<span class="badge-base status-agora"><span class="bolinha bolinha-verde"></span> Agora</span>`;
           } else if (jogador.furaFila) {
-            acoesHTML = `<span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> Furou a Fila</span>`;
+            acoesHTML = `<span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> Furou</span>`;
           } else {
-            acoesHTML = `<span class="badge-base status-aguardando"><span class="bolinha bolinha-amarela"></span> Aguardando</span>`;
+            acoesHTML = `<span class="badge-base status-aguardando"><span class="bolinha bolinha-amarela"></span> Espera</span>`;
           }
         }
 
-        const badgeAgora = jogador.chamado && isAdmin 
-          ? ` <span class="badge-base status-agora"><span class="bolinha bolinha-verde"></span> Agora</span>` 
-          : '';
-
-        const badgeFuraAdmin = jogador.furaFila && isAdmin && !jogador.chamado
-          ? ` <span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> Furou a Fila</span>`
-          : '';
-
         tr.innerHTML = `
           <td><strong>#${index + 1}</strong></td>
-          <td>${jogador.nick} ${badgeAgora} ${badgeFuraAdmin}</td>
+          <td><strong>${jogador.nick}</strong></td>
           <td>${jogador.elemental}</td>
           <td>${acoesHTML}</td>
         `;
