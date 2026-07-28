@@ -497,6 +497,7 @@
     let isAdmin = false;
     let filaAberta = true;
     const SENHA_ADMIN = "1574";
+    const TEMPO_ESPERA_MS = 5 * 60 * 1000; // 5 minutos em milissegundos
 
     const form = document.getElementById('filaForm');
     let listaKeys = []; 
@@ -547,6 +548,21 @@
         return;
       }
 
+      // Validação de tempo de espera (Cooldown) de 5 minutos para o usuário comum (Admin ignora isso)
+      if (!isAdmin) {
+        const ultimoEnvio = localStorage.getItem('ultimo_envio_fila');
+        if (ultimoEnvio) {
+          const tempoDecorrido = Date.now() - parseInt(ultimoEnvio);
+          if (tempoDecorrido < TEMPO_ESPERA_MS) {
+            const tempoRestanteSegundos = Math.ceil((TEMPO_ESPERA_MS - tempoDecorrido) / 1000);
+            const minutos = Math.floor(tempoRestanteSegundos / 60);
+            const segundos = tempoRestanteSegundos % 60;
+            alert(`Aguarde ${minutos > 0 ? minutos + ' minuto(s) e ' : ''}${segundos} segundo(s) para entrar na fila novamente!`);
+            return;
+          }
+        }
+      }
+
       const nick = document.getElementById('nickname').value;
       const elemental = document.getElementById('elemental').value;
 
@@ -557,6 +573,11 @@
         furaFilaOrder: 0,
         timestamp: Date.now()
       }).then(() => {
+        // Salva o horário atual no navegador do usuário
+        if (!isAdmin) {
+          localStorage.setItem('ultimo_envio_fila', Date.now().toString());
+        }
+
         document.getElementById('nickname').value = '';
         document.getElementById('elemental').value = '';
       });
@@ -698,10 +719,8 @@
       const jogadorAtual = filaLocal[index];
 
       if (jogadorAtual.furaFilaOrder > 0) {
-        // Se já tem ordem de fura fila, desativa (volta para a fila normal por timestamp)
         update(ref(db, `fila/${key}`), { furaFilaOrder: 0 });
       } else {
-        // Pega todos os registros do banco para calcular o próximo número sequencial (#1, #2, #3...)
         get(filaRef).then((snapshot) => {
           let maxOrder = 0;
           if (snapshot.exists()) {
