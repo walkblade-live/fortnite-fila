@@ -3,197 +3,391 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fila da Live - Walkblade</title>
+  <title>Fila de espera - Walkblade Segue nois no Tik Tok</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121214;
+      color: #ffffff;
+      max-width: 800px;
+      margin: 0 auto;
       padding: 15px;
-      min-height: 100vh;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 600px;
-    }
-
-    h1 {
-      color: #38bdf8;
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-    }
+    h1, h2 { text-align: center; color: #00d4ff; }
 
     .card {
-      background: #1e293b;
+      background-color: #202024;
       padding: 20px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border-radius: 8px;
       margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
     .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      margin-bottom: 15px;
     }
 
-    @media (min-width: 480px) {
-      .form-group {
-        flex-direction: row;
-      }
-    }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
 
     input, select, button {
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: #fff;
-      font-size: 1rem;
       width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #323238;
+      background-color: #121214;
+      color: #fff;
+      box-sizing: border-box;
     }
 
-    button {
-      background: #0284c7;
-      color: white;
+    button.btn-principal {
+      background-color: #00d4ff;
+      color: #121214;
       font-weight: bold;
       cursor: pointer;
       border: none;
       transition: 0.2s;
     }
 
-    button:hover {
-      background: #0369a1;
+    button.btn-principal:hover { background-color: #0099cc; }
+
+    .aviso-pix {
+      text-align: center;
+      color: #ffffff;
+      font-size: 0.9em;
+      margin-top: 10px;
+      font-weight: 500;
     }
 
-    .btn-danger { background: #ef4444; }
-    .btn-danger:hover { background: #dc2626; }
-    
-    .btn-success { background: #22c55e; }
-    .btn-success:hover { background: #16a34a; }
-
-    .admin-panel {
-      border: 2px dashed #38bdf8;
-      display: none;
-    }
-
-    .admin-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .table-container {
-      overflow-x: auto;
+    /* Ajuste para rolagem e visualização em celular */
+    .table-responsive {
       width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
+      min-width: 550px;
     }
 
     th, td {
-      padding: 10px;
+      padding: 12px;
       text-align: left;
-      border-bottom: 1px solid #334155;
-      font-size: 0.95rem;
+      border-bottom: 1px solid #323238;
     }
 
-    th {
-      background: #0f172a;
-      color: #38bdf8;
-    }
+    th { background-color: #29292e; color: #00d4ff; }
 
-    .status-espera { color: #facc15; font-weight: bold; }
-    .status-jogando { color: #4ade80; font-weight: bold; }
-
-    .actions-cell {
+    .admin-controls {
       display: flex;
-      gap: 5px;
+      justify-content: flex-end;
+      margin-bottom: 10px;
     }
 
-    .actions-cell button {
-      padding: 6px 10px;
-      font-size: 0.85rem;
+    /* ESTILOS PADRONIZADOS (PÍLULAS DE STATUS E BOTÕES TEMÁTICOS) */
+    .badge-base {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      transition: all 0.2s ease;
     }
 
-    .admin-toggle {
-      background: transparent;
-      color: #64748b;
-      font-size: 0.8rem;
-      border: none;
-      margin-top: 20px;
+    .bolinha {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* STATUS: AGORA (VERDE) */
+    .status-agora {
+      background-color: #04d3611a;
+      color: #04d361;
+      border: 1px solid #04d361;
+    }
+
+    .bolinha-verde {
+      background-color: #04d361;
+      box-shadow: 0 0 8px #04d361;
+    }
+
+    /* STATUS: AGUARDANDO (AMARELO) */
+    .status-aguardando {
+      background-color: #fba94c1a;
+      color: #fba94c;
+      border: 1px solid #fba94c;
+    }
+
+    .bolinha-amarela {
+      background-color: #fba94c;
+      box-shadow: 0 0 8px #fba94c;
+    }
+
+    /* STATUS: FUROU A FILA (ROXO) */
+    .status-furou {
+      background-color: #9966ff1a;
+      color: #a855f7;
+      border: 1px solid #a855f7;
+    }
+
+    .bolinha-roxa {
+      background-color: #a855f7;
+      box-shadow: 0 0 8px #a855f7;
+    }
+
+    /* BOTÕES DO MODO ADMIN */
+    .btn-action {
+      cursor: pointer;
+      width: auto;
+      margin-right: 2px;
+      margin-bottom: 2px;
+    }
+
+    .btn-action.btn-chamar {
+      background-color: #04d3611a;
+      color: #04d361;
+      border: 1px solid #04d361;
+    }
+
+    .btn-action.btn-chamar:hover {
+      background-color: #04d361;
+      color: #121214;
+    }
+
+    .btn-action.btn-fura {
+      background-color: #9966ff1a;
+      color: #a855f7;
+      border: 1px solid #a855f7;
+    }
+
+    .btn-action.btn-fura:hover {
+      background-color: #a855f7;
+      color: #121214;
+    }
+
+    .btn-action.btn-editar {
+      background-color: #00d4ff1a;
+      color: #00d4ff;
+      border: 1px solid #00d4ff;
+    }
+
+    .btn-action.btn-editar:hover {
+      background-color: #00d4ff;
+      color: #121214;
+    }
+
+    .btn-action.btn-finalizar {
+      background-color: #ff79c61a;
+      color: #ff9933;
+      border: 1px solid #ff9933;
+    }
+
+    .btn-action.btn-finalizar:hover {
+      background-color: #ff9933;
+      color: #121214;
+    }
+
+    /* Destaque para a linha dos jogadores ativos */
+    tr.jogador-ativo {
+      background-color: #04d3610d;
+    }
+
+    tr.jogador-fura-fila {
+      background-color: #a855f70d;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>🎮 Fila da Live - Walkblade</h1>
-    <p>Cadastre seu nick para jogar com a gente!</p>
-  </header>
+  <!-- TÍTULO -->
+  <h1>🎮 Fila de espera - Walkblade Segue nois no Tik Tok</h1>
 
   <!-- FORMULÁRIO DE INSCRIÇÃO -->
   <div class="card">
-    <div class="form-group">
-      <input type="text" id="nickInput" placeholder="Seu Nick do Jogo/TikTok" maxlength="20">
-      <button onclick="entrarNaFila()">Entrar na Fila</button>
-    </div>
+    <h2>Entrar na Fila</h2>
+    <form id="filaForm">
+      <div class="form-group">
+        <label for="nickname">Nickname / Epic ID:</label>
+        <input type="text" id="nickname" placeholder="Ex: Player123" required>
+      </div>
+
+      <div class="form-group">
+        <label for="elemental">Elemental Escolhido:</label>
+        <select id="elemental" required>
+          <option value="">Selecione um elemental...</option>
+          
+          <!-- ÁGUA -->
+          <option value="💧 Agua (Normal)">💧 Agua (Normal)</option>
+          <option value="🥇 Agua (Dourado)">🥇 Agua (Dourado)</option>
+          <option value="🫧 Agua (Gelatinoso)">🫧 Agua (Gelatinoso)</option>
+          <option value="🌌 Agua (Galatico)">🌌 Agua (Galatico)</option>
+          <option value="⚙️ Agua (Metalizado)">⚙️ Agua (Metalizado)</option>
+
+          <!-- TERRA -->
+          <option value="🌱 Terra (Normal)">🌱 Terra (Normal)</option>
+          <option value="🥇 Terra (Dourado)">🥇 Terra (Dourado)</option>
+          <option value="🫧 Terra (Gelatinoso)">🫧 Terra (Gelatinoso)</option>
+          <option value="🌌 Terra (Galatico)">🌌 Terra (Galatico)</option>
+          <option value="🟪 Terra (Cubo)">🟪 Terra (Cubo)</option>
+
+          <!-- FOGO -->
+          <option value="🔥 Fogo (Normal)">🔥 Fogo (Normal)</option>
+          <option value="🥇 Fogo (Dourado)">🥇 Fogo (Dourado)</option>
+          <option value="🫧 Fogo (Gelatinoso)">🫧 Fogo (Gelatinoso)</option>
+          <option value="🌌 Fogo (Galatico)">🌌 Fogo (Galatico)</option>
+          <option value="⚙️ Fogo (Metalizado)">⚙️ Fogo (Metalizado)</option>
+          <option value="🟪 Fogo (Cubo)">🟪 Fogo (Cubo)</option>
+
+          <!-- PEIXOTO -->
+          <option value="🐟 Peixoto (Normal)">🐟 Peixoto (Normal)</option>
+          <option value="🥇 Peixoto (Dourado)">🥇 Peixoto (Dourado)</option>
+          <option value="🫧 Peixoto (Gelatinoso)">🫧 Peixoto (Gelatinoso)</option>
+          <option value="🌌 Peixoto (Galatico)">🌌 Peixoto (Galatico)</option>
+          <option value="🟪 Peixoto (Cubo)">🟪 Peixoto (Cubo)</option>
+
+          <!-- AR -->
+          <option value="🌪️ Ar (Normal)">🌪️ Ar (Normal)</option>
+          <option value="🥇 Ar (Dourado)">🥇 Ar (Dourado)</option>
+          <option value="🫧 Ar (Gelatinoso)">🫧 Ar (Gelatinoso)</option>
+          <option value="🌌 Ar (Galatico)">🌌 Ar (Galatico)</option>
+          <option value="⚙️ Ar (Metalizado)">⚙️ Ar (Metalizado)</option>
+
+          <!-- PATO -->
+          <option value="🦆 Pato (Normal)">🦆 Pato (Normal)</option>
+          <option value="🥇 Pato (Dourado)">🥇 Pato (Dourado)</option>
+          <option value="🫧 Pato (Gelatinoso)">🫧 Pato (Gelatinoso)</option>
+          <option value="🌌 Pato (Galatico)">🌌 Pato (Galatico)</option>
+
+          <!-- FANTASMINHA -->
+          <option value="👻 Fantasminha (Normal)">👻 Fantasminha (Normal)</option>
+          <option value="🥇 Fantasminha (Dourado)">🥇 Fantasminha (Dourado)</option>
+          <option value="🫧 Fantasminha (Gelatinoso)">🫧 Fantasminha (Gelatinoso)</option>
+          <option value="🌌 Fantasminha (Galatico)">🌌 Fantasminha (Galatico)</option>
+          <option value="⚙️ Fantasminha (Metalizado)">⚙️ Fantasminha (Metalizado)</option>
+
+          <!-- DEMONIO -->
+          <option value="😈 Demonio (Normal)">😈 Demonio (Normal)</option>
+          <option value="🥇 Demonio (Dourado)">🥇 Demonio (Dourado)</option>
+          <option value="🫧 Demonio (Gelatinoso)">🫧 Demonio (Gelatinoso)</option>
+          <option value="🌌 Demonio (Galatico)">🌌 Demonio (Galatico)</option>
+
+          <!-- REI -->
+          <option value="👑 Rei (Normal)">👑 Rei (Normal)</option>
+          <option value="🥇 Rei (Dourado)">🥇 Rei (Dourado)</option>
+          <option value="🫧 Rei (Gelatinoso)">🫧 Rei (Gelatinoso)</option>
+          <option value="🌌 Rei (Galatico)">🌌 Rei (Galatico)</option>
+          <option value="⚙️ Rei (Metalizado)">⚙️ Rei (Metalizado)</option>
+
+          <!-- AURA -->
+          <option value="✨ Aura (Normal)">✨ Aura (Normal)</option>
+          <option value="🥇 Aura (Dourado)">🥇 Aura (Dourado)</option>
+          <option value="🫧 Aura (Gelatinoso)">🫧 Aura (Gelatinoso)</option>
+          <option value="🌌 Aura (Galatico)">🌌 Aura (Galatico)</option>
+
+          <!-- ATACANTE -->
+          <option value="🏀 Atacante (Normal)">🏀 Atacante (Normal)</option>
+          <option value="🥇 Atacante (Dourado)">🥇 Atacante (Dourado)</option>
+          <option value="🫧 Atacante (Gelatinoso)">🫧 Atacante (Gelatinoso)</option>
+          <option value="🌌 Atacante (Galatico)">🌌 Atacante (Galatico)</option>
+          <option value="⚙️ Atacante (Metalizado)">⚙️ Atacante (Metalizado)</option>
+
+          <!-- SONHO -->
+          <option value="💤 Sonho (Normal)">💤 Sonho (Normal)</option>
+          <option value="🥇 Sonho (Dourado)">🥇 Sonho (Dourado)</option>
+          <option value="🫧 Sonho (Gelatinoso)">🫧 Sonho (Gelatinoso)</option>
+          <option value="🌌 Sonho (Galatico)">🌌 Sonho (Galatico)</option>
+          <option value="🟪 Sonho (Cubo)">🟪 Sonho (Cubo)</option>
+
+          <!-- PUNK -->
+          <option value="🤘 Punk (Normal)">🤘 Punk (Normal)</option>
+          <option value="🥇 Punk (Dourado)">🥇 Punk (Dourado)</option>
+          <option value="🫧 Punk (Gelatinoso)">🫧 Punk (Gelatinoso)</option>
+          <option value="🌌 Punk (Galatico)">🌌 Punk (Galatico)</option>
+          <option value="🟪 Punk (Cubo)">🟪 Punk (Cubo)</option>
+
+          <!-- CHEFE -->
+          <option value="💀 Chefe (Normal)">💀 Chefe (Normal)</option>
+          <option value="🥇 Chefe (Dourado)">🥇 Chefe (Dourado)</option>
+          <option value="🫧 Chefe (Gelatinoso)">🫧 Chefe (Gelatinoso)</option>
+          <option value="🌌 Chefe (Galatico)">🌌 Chefe (Galatico)</option>
+          <option value="🟪 Chefe (Cubo)">🟪 Chefe (Cubo)</option>
+
+          <!-- FUNDAÇÃO 7 -->
+          <option value="🛡️ Fundação 7 (Normal)">🛡️ Fundação 7 (Normal)</option>
+          <option value="🥇 Fundação 7 (Dourado)">🥇 Fundação 7 (Dourado)</option>
+          <option value="🫧 Fundação 7 (Gelatinoso)">🫧 Fundação 7 (Gelatinoso)</option>
+          <option value="🌌 Fundação 7 (Galatico)">🌌 Fundação 7 (Galatico)</option>
+          <option value="⚙️ Fundação 7 (Metalizado)">⚙️ Fundação 7 (Metalizado)</option>
+
+          <!-- BATMAN -->
+          <option value="🦇 Batman (Normal)">🦇 Batman (Normal)</option>
+          <option value="🥇 Batman (Dourado)">🥇 Batman (Dourado)</option>
+          <option value="🫧 Batman (Gelatinoso)">🫧 Batman (Gelatinoso)</option>
+          <option value="🌌 Batman (Galatico)">🌌 Batman (Galatico)</option>
+          <option value="⚙️ Batman (Metalizado)">⚙️ Batman (Metalizado)</option>
+          <option value="🟪 Batman (Cubo)">🟪 Batman (Cubo)</option>
+
+          <!-- CEIFADOR -->
+          <option value="☠️ Ceifador (Normal)">☠️ Ceifador (Normal)</option>
+          <option value="🥇 Ceifador (Dourado)">🥇 Ceifador (Dourado)</option>
+          <option value="🫧 Ceifador (Gelatinoso)">🫧 Ceifador (Gelatinoso)</option>
+          <option value="🌌 Ceifador (Galatico)">🌌 Ceifador (Galatico)</option>
+          <option value="🟪 Ceifador (Cubo)">🟪 Ceifador (Cubo)</option>
+
+          <!-- PONTO ZERO -->
+          <option value="🌀 Ponto Zero (Normal)">🌀 Ponto Zero (Normal)</option>
+          <option value="🥇 Ponto Zero (Dourado)">🥇 Ponto Zero (Dourado)</option>
+          <option value="🫧 Ponto Zero (Gelatinoso)">🫧 Ponto Zero (Gelatinoso)</option>
+          <option value="🌌 Ponto Zero (Galatico)">🌌 Ponto Zero (Galatico)</option>
+
+          <!-- ESPECIAIS -->
+          <option value="🥜 Amendoim (Burnout Peanut)">🥜 Amendoim (Burnout Peanut)</option>
+          <option value="⚽ Vini JR">⚽ Vini JR</option>
+          <option value="🐥 Pollo (Pintinho)">🐥 Pollo (Pintinho)</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-principal">Entrar na Fila ou Fure a Fila</button>
+      <div class="aviso-pix">Para Furar a Fila envie uma live P!X, a fila segue de acordo!</div>
+    </form>
   </div>
 
-  <!-- PAINEL DE ADMIN -->
-  <div class="card admin-panel" id="adminPanel">
-    <h3>👑 Painel de Controle (Admin)</h3>
-    <div class="admin-controls">
-      <button class="btn-danger" onclick="limparFila()">Limpar Fila Toda</button>
-    </div>
-  </div>
-
-  <!-- LISTA DA FILA -->
+  <!-- TABELA DA FILA -->
   <div class="card">
-    <h2>📋 Fila de Espera</h2>
-    <div class="table-container">
+    <div class="admin-controls">
+      <button id="btnAdmin" class="btn-principal" style="width: auto;" onclick="toggleAdmin()">Entrar como Host / Admin</button>
+    </div>
+    
+    <h2>Fila Atual</h2>
+    <div class="table-responsive">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Nick</th>
-            <th>Status</th>
-            <th class="admin-only" style="display:none;">Ações</th>
+            <th>Posição</th>
+            <th>Nickname</th>
+            <th>Elemental</th>
+            <th>Chamadas</th>
           </tr>
         </thead>
-        <tbody id="filaBody">
-          <tr><td colspan="4">Carregando fila...</td></tr>
+        <tbody id="tabelaFila">
+          <!-- Os inscritos aparecerão aqui automaticamente -->
         </tbody>
       </table>
     </div>
   </div>
 
-  <button class="admin-toggle" onclick="toggleAdmin()">Acessar Modop Admin</button>
-
-  <!-- FIREBASE SDKs -->
+  <!-- CONEXÃO FIREBASE EM TEMPO REAL -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    // Suas configurações do Firebase conectadas!
     const firebaseConfig = {
       apiKey: "AIzaSyB107R20K5NeJvEydhncZA0zJqe50MG9P4",
       authDomain: "walkblade-fila.firebaseapp.com",
@@ -209,98 +403,177 @@
     const filaRef = ref(db, 'fila');
 
     let isAdmin = false;
+    const SENHA_ADMIN = "1574";
 
-    // Adicionar Jogador
-    window.entrarNaFila = function() {
-      const nickInput = document.getElementById('nickInput');
-      const nick = nickInput.value.trim();
+    const form = document.getElementById('filaForm');
+    let listaKeys = []; 
+    let filaLocal = []; 
 
-      if (!nick) {
-        alert('Digite o seu nick!');
-        return;
-      }
+    // Adicionar à Fila (No Firebase)
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nick = document.getElementById('nickname').value;
+      const elemental = document.getElementById('elemental').value;
 
       push(filaRef, {
         nick: nick,
-        status: 'Aguardando',
+        elemental: elemental,
+        chamado: false,
+        furaFila: false,
+        furaFilaTime: 0,
         timestamp: Date.now()
       }).then(() => {
-        nickInput.value = '';
+        document.getElementById('nickname').value = '';
+        document.getElementById('elemental').value = '';
       });
-    };
+    });
 
-    // Escutar alterações na Fila em Tempo Real
+    // Escutar alterações do Firebase ao vivo
     onValue(filaRef, (snapshot) => {
-      const filaBody = document.getElementById('filaBody');
-      filaBody.innerHTML = '';
+      const itens = [];
 
-      if (!snapshot.exists()) {
-        filaBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Fila vazia no momento!</td></tr>';
+      if (snapshot.exists()) {
+        snapshot.forEach((child) => {
+          itens.push({
+            key: child.key,
+            data: child.val()
+          });
+        });
+
+        // Ordenação inteligente: 
+        // 1. Quem furou a fila vem primeiro (ordenado por quem furou antes)
+        // 2. Depois vem a fila normal (ordenado por ordem de inscrição)
+        itens.sort((a, b) => {
+          if (a.data.furaFila && !b.data.furaFila) return -1;
+          if (!a.data.furaFila && b.data.furaFila) return 1;
+          
+          if (a.data.furaFila && b.data.furaFila) {
+            return (a.data.furaFilaTime || 0) - (b.data.furaFilaTime || 0);
+          }
+          
+          return (a.data.timestamp || 0) - (b.data.timestamp || 0);
+        });
+      }
+
+      listaKeys = itens.map(item => item.key);
+      filaLocal = itens.map(item => item.data);
+
+      atualizarTabela();
+    });
+
+    // Atualizar visualização da tabela
+    window.atualizarTabela = function() {
+      const tabela = document.getElementById('tabelaFila');
+      tabela.innerHTML = '';
+
+      if (filaLocal.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="4" style="text-align:center;">Fila vazia no momento.</td></tr>`;
         return;
       }
 
-      let pos = 1;
-      snapshot.forEach((childSnapshot) => {
-        const key = childSnapshot.key;
-        const data = childSnapshot.val();
-
+      filaLocal.forEach((jogador, index) => {
         const tr = document.createElement('tr');
+
+        if (jogador.chamado) {
+          tr.classList.add('jogador-ativo');
+        } else if (jogador.furaFila) {
+          tr.classList.add('jogador-fura-fila');
+        }
+
+        let acoesHTML = '';
         
-        let statusClass = data.status === 'Jogando' ? 'status-jogando' : 'status-espera';
-        let adminActionButtons = isAdmin ? `
-          <td class="actions-cell">
-            <button class="btn-success" onclick="mudarStatus('${key}', 'Jogando')">Chamar</button>
-            <button class="btn-danger" onclick="removerJogador('${key}')">X</button>
-          </td>
-        ` : `<td class="admin-only" style="display:none;"></td>`;
+        if (isAdmin) {
+          acoesHTML = `
+            <button class="badge-base btn-action btn-chamar" onclick="chamarJogador(${index})">
+              ${jogador.chamado ? 'Desmarcar' : 'Chamar'}
+            </button>
+            <button class="badge-base btn-action btn-fura" onclick="furarFilaJogador(${index})">
+              ${jogador.furaFila ? '↩️ Normal' : '⚡ Fura Fila'}
+            </button>
+            <button class="badge-base btn-action btn-editar" onclick="editarElemental(${index})">✏️ Editar</button>
+            <button class="badge-base btn-action btn-finalizar" onclick="removerJogador(${index})">Finalizar 🠳</button>
+          `;
+        } else {
+          if (jogador.chamado) {
+            acoesHTML = `<span class="badge-base status-agora"><span class="bolinha bolinha-verde"></span> Agora</span>`;
+          } else if (jogador.furaFila) {
+            acoesHTML = `<span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> Furou a Fila</span>`;
+          } else {
+            acoesHTML = `<span class="badge-base status-aguardando"><span class="bolinha bolinha-amarela"></span> Aguardando</span>`;
+          }
+        }
+
+        const badgeAgora = jogador.chamado && isAdmin 
+          ? ` <span class="badge-base status-agora"><span class="bolinha bolinha-verde"></span> Agora</span>` 
+          : '';
+
+        const badgeFuraAdmin = jogador.furaFila && isAdmin && !jogador.chamado
+          ? ` <span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> Furou a Fila</span>`
+          : '';
 
         tr.innerHTML = `
-          <td>${pos++}</td>
-          <td>${data.nick}</td>
-          <td class="${statusClass}">${data.status}</td>
-          ${adminActionButtons}
+          <td><strong>#${index + 1}</strong></td>
+          <td>${jogador.nick} ${badgeAgora} ${badgeFuraAdmin}</td>
+          <td>${jogador.elemental}</td>
+          <td>${acoesHTML}</td>
         `;
 
-        filaBody.appendChild(tr);
+        tabela.appendChild(tr);
       });
-      
-      atualizarVisibilidadeAdmin();
-    });
-
-    // Ações de Admin
-    window.mudarStatus = function(key, novoStatus) {
-      update(ref(db, `fila/${key}`), { status: novoStatus });
     };
 
-    window.removerJogador = function(key) {
+    // Ativar Modo Admin
+    window.toggleAdmin = function() {
+      if (!isAdmin) {
+        const senha = prompt("Digite a senha de Admin:");
+        if (senha === SENHA_ADMIN) {
+          isAdmin = true;
+          document.getElementById('btnAdmin').innerText = "Sair do Modo Admin";
+          alert("Modo Admin ativado!");
+        } else if (senha !== null) {
+          alert("Senha incorreta!");
+        }
+      } else {
+        isAdmin = false;
+        document.getElementById('btnAdmin').innerText = "Entrar como Host / Admin";
+      }
+      atualizarTabela();
+    };
+
+    // Chamar Jogador no Firebase
+    window.chamarJogador = function(index) {
+      const key = listaKeys[index];
+      const novoStatus = !filaLocal[index].chamado;
+      update(ref(db, `fila/${key}`), { chamado: novoStatus });
+    };
+
+    // Alternar status Fura Fila
+    window.furarFilaJogador = function(index) {
+      const key = listaKeys[index];
+      const statusAtual = filaLocal[index].furaFila;
+      
+      update(ref(db, `fila/${key}`), { 
+        furaFila: !statusAtual,
+        furaFilaTime: !statusAtual ? Date.now() : 0 
+      });
+    };
+
+    // Editar Elemental no Firebase
+    window.editarElemental = function(index) {
+      const key = listaKeys[index];
+      const novoElemental = prompt(`Digite exatamente o novo elemental para ${filaLocal[index].nick}:`, filaLocal[index].elemental);
+
+      if (novoElemental !== null && novoElemental.trim() !== "") {
+        update(ref(db, `fila/${key}`), { elemental: novoElemental });
+      }
+    };
+
+    // Remover do Firebase
+    window.removerJogador = function(index) {
+      const key = listaKeys[index];
       remove(ref(db, `fila/${key}`));
     };
-
-    window.limparFila = function() {
-      if (confirm('Tem certeza que quer apagar a fila inteira?')) {
-        remove(filaRef);
-      }
-    };
-
-    // Ativar/Desativar modo Admin
-    window.toggleAdmin = function() {
-      const senha = prompt('Digite a senha de Admin:');
-      if (senha === '1234') { // Você pode trocar '1234' pela senha que quiser!
-        isAdmin = !isAdmin;
-        document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none';
-        alert(isAdmin ? 'Modo Admin Ativado!' : 'Modo Admin Desativado!');
-        atualizarVisibilidadeAdmin();
-      } else if (senha !== null) {
-        alert('Senha incorreta!');
-      }
-    };
-
-    function atualizarVisibilidadeAdmin() {
-      const adminElements = document.querySelectorAll('.admin-only');
-      adminElements.forEach(el => {
-        el.style.display = isAdmin ? 'table-cell' : 'none';
-      });
-    }
   </script>
 </body>
 </html>
