@@ -111,12 +111,45 @@
 
     button.btn-principal:hover { background-color: #0099cc; }
 
+    /* ESTILO DA ÁREA DO AVISO PIX COM O BOTÃO ROXO */
+    .aviso-pix-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
     .aviso-pix {
-      text-align: center;
       color: #ffffff;
       font-size: 0.85rem;
-      margin-top: 8px;
       font-weight: 500;
+      margin: 0;
+      text-align: center;
+    }
+
+    .btn-live-pix {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background-color: #9966ff1a;
+      color: #a855f7;
+      border: 1px solid #a855f7;
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.78rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-live-pix:hover {
+      background-color: #a855f7;
+      color: #121214;
+      box-shadow: 0 0 10px #a855f7;
     }
 
     /* AJUSTE RESPONSIVO DA TABELA PARA CELULAR */
@@ -409,7 +442,12 @@
       </div>
 
       <button type="submit" class="btn-principal">Entrar na Fila</button>
-      <div class="aviso-pix">Para Furar a Fila envie uma live P!X, a fila segue de acordo!</div>
+      
+      <!-- AVISO PIX COM O TEXTO EXATO E O BOTÃO NO FINAL -->
+      <div class="aviso-pix-container">
+        <span class="aviso-pix">Clique no botão Roxo da Live P!X e "Fure a Fila", a fila ainda segue de acordo!</span>
+        <a href="https://livepix.gg/walkblade" target="_blank" class="btn-live-pix">⚡ Live P!X</a>
+      </div>
     </form>
   </div>
 
@@ -439,7 +477,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, push, onValue, remove, update, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB107R20K5NeJvEydhncZA0zJqe50MG9P4",
@@ -477,7 +515,7 @@
       const inputNick = document.getElementById('nickname');
       const selectElemental = document.getElementById('elemental');
       const btnSubmit = document.querySelector('#filaForm button[type="submit"]');
-      const avisoPix = document.querySelector('.aviso-pix');
+      const avisoPixDiv = document.querySelector('.aviso-pix-container');
 
       if (!filaAberta && !isAdmin) {
         inputNick.disabled = true;
@@ -486,8 +524,7 @@
         btnSubmit.style.opacity = "0.5";
         btnSubmit.style.cursor = "not-allowed";
         btnSubmit.innerText = "Fila Encerrada pelo Host";
-        avisoPix.style.color = "#ff4d4d";
-        avisoPix.innerText = "⚠️ A fila está encerrada no momento!";
+        avisoPixDiv.innerHTML = `<span class="aviso-pix" style="color: #ff4d4d; width: 100%;">⚠️ A fila está encerrada no momento!</span>`;
       } else {
         inputNick.disabled = false;
         selectElemental.disabled = false;
@@ -495,8 +532,10 @@
         btnSubmit.style.opacity = "1";
         btnSubmit.style.cursor = "pointer";
         btnSubmit.innerText = "Entrar na Fila";
-        avisoPix.style.color = "#ffffff";
-        avisoPix.innerText = "Para Furar a Fila envie uma live P!X, a fila segue de acordo!";
+        avisoPixDiv.innerHTML = `
+          <span class="aviso-pix">Clique no botão Roxo da Live P!X e "Fure a Fila", a fila ainda segue de acordo!</span>
+          <a href="https://livepix.gg/walkblade" target="_blank" class="btn-live-pix">⚡ Live P!X</a>
+        `;
       }
     }
 
@@ -515,8 +554,7 @@
         nick: nick,
         elemental: elemental,
         chamado: false,
-        furaFila: false,
-        furaFilaTime: 0,
+        furaFilaOrder: 0,
         timestamp: Date.now()
       }).then(() => {
         document.getElementById('nickname').value = '';
@@ -536,12 +574,14 @@
         });
 
         itens.sort((a, b) => {
-          if (a.data.furaFila && !b.data.furaFila) return -1;
-          if (!a.data.furaFila && b.data.furaFila) return 1;
-          
-          if (a.data.furaFila && b.data.furaFila) {
-            return (a.data.furaFilaTime || 0) - (b.data.furaFilaTime || 0);
+          const orderA = a.data.furaFilaOrder || 0;
+          const orderB = b.data.furaFilaOrder || 0;
+
+          if (orderA > 0 && orderB > 0) {
+            return orderA - orderB;
           }
+          if (orderA > 0) return -1;
+          if (orderB > 0) return 1;
           
           return (a.data.timestamp || 0) - (b.data.timestamp || 0);
         });
@@ -567,7 +607,7 @@
 
         if (jogador.chamado) {
           tr.classList.add('jogador-ativo');
-        } else if (jogador.furaFila) {
+        } else if (jogador.furaFilaOrder > 0) {
           tr.classList.add('jogador-fura-fila');
         }
 
@@ -575,12 +615,13 @@
         let nicknameConteudo = `<strong>${jogador.nick}</strong>`;
 
         if (isAdmin) {
+          const btnFuraTexto = (jogador.furaFilaOrder > 0) ? '↩️ Normal' : '⚡ Fura Fila';
           acoesHTML = `
             <button class="badge-base btn-action btn-chamar" onclick="chamarJogador(${index})">
               ${jogador.chamado ? 'Desmarcar' : 'Chamar'}
             </button>
             <button class="badge-base btn-action btn-fura" onclick="furarFilaJogador(${index})">
-              ${jogador.furaFila ? '↩️ Normal' : '⚡ Fura Fila'}
+              ${btnFuraTexto}
             </button>
             <button class="badge-base btn-action btn-editar" onclick="editarElemental(${index})">✏️ Editar</button>
             <button class="badge-base btn-action btn-finalizar" onclick="removerJogador(${index})">Finalizar 🠳</button>
@@ -589,8 +630,8 @@
           let statusBadgeAbaixo = '';
           if (jogador.chamado) {
             statusBadgeAbaixo = `<div style="margin-top: 4px;"><span class="badge-base status-agora" style="font-size: 0.65rem; padding: 2px 6px;"><span class="bolinha bolinha-verde"></span> Agora</span></div>`;
-          } else if (jogador.furaFila) {
-            statusBadgeAbaixo = `<div style="margin-top: 4px;"><span class="badge-base status-furou" style="font-size: 0.65rem; padding: 2px 6px;"><span class="bolinha bolinha-roxa"></span> ⚡ Furou</span></div>`;
+          } else if (jogador.furaFilaOrder > 0) {
+            statusBadgeAbaixo = `<div style="margin-top: 4px;"><span class="badge-base status-furou" style="font-size: 0.65rem; padding: 2px 6px;"><span class="bolinha bolinha-roxa"></span> ⚡ #${jogador.furaFilaOrder}</span></div>`;
           } else {
             statusBadgeAbaixo = `<div style="margin-top: 4px;"><span class="badge-base status-aguardando" style="font-size: 0.65rem; padding: 2px 6px;"><span class="bolinha bolinha-amarela"></span> Espera</span></div>`;
           }
@@ -600,8 +641,8 @@
         } else {
           if (jogador.chamado) {
             acoesHTML = `<span class="badge-base status-agora"><span class="bolinha bolinha-verde"></span> Agora</span>`;
-          } else if (jogador.furaFila) {
-            acoesHTML = `<span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> ⚡ Furou</span>`;
+          } else if (jogador.furaFilaOrder > 0) {
+            acoesHTML = `<span class="badge-base status-furou"><span class="bolinha bolinha-roxa"></span> ⚡ #${jogador.furaFilaOrder} Fura Fila</span>`;
           } else {
             acoesHTML = `<span class="badge-base status-aguardando"><span class="bolinha bolinha-amarela"></span> Espera</span>`;
           }
@@ -654,12 +695,27 @@
 
     window.furarFilaJogador = function(index) {
       const key = listaKeys[index];
-      const statusAtual = filaLocal[index].furaFila;
-      
-      update(ref(db, `fila/${key}`), { 
-        furaFila: !statusAtual,
-        furaFilaTime: !statusAtual ? Date.now() : 0 
-      });
+      const jogadorAtual = filaLocal[index];
+
+      if (jogadorAtual.furaFilaOrder > 0) {
+        // Se já tem ordem de fura fila, desativa (volta para a fila normal por timestamp)
+        update(ref(db, `fila/${key}`), { furaFilaOrder: 0 });
+      } else {
+        // Pega todos os registros do banco para calcular o próximo número sequencial (#1, #2, #3...)
+        get(filaRef).then((snapshot) => {
+          let maxOrder = 0;
+          if (snapshot.exists()) {
+            snapshot.forEach((child) => {
+              const val = child.val();
+              if (val.furaFilaOrder && val.furaFilaOrder > maxOrder) {
+                maxOrder = val.furaFilaOrder;
+              }
+            });
+          }
+          const proximaOrdem = maxOrder + 1;
+          update(ref(db, `fila/${key}`), { furaFilaOrder: proximaOrdem });
+        });
+      }
     };
 
     window.editarElemental = function(index) {
