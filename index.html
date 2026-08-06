@@ -1,5 +1,3 @@
-Script novo
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,6 +5,7 @@ Script novo
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fila de espera - Walkblade | TikTok</title>
   <style>
+    /* ESTILO DE FUNDO COM IMAGEM RESPONSIVA E OPACIDADE SUAVE */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121214;
@@ -14,17 +13,37 @@ Script novo
       max-width: 800px;
       margin: 0 auto;
       padding: 10px;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* CAMADA DA FOTO DE FUNDO NAS LATERAIS */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.imgur.com/VkUuIqw.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      opacity: 0.35;
+      z-index: -1;
     }
 
     /* ESTILO DO HEADER COM OS DOIS BOTÕES */
     .live-header {
-      background: linear-gradient(135deg, #202024 0%, #1a1a1e 100%);
+      background: rgba(32, 32, 36, 0.9);
       border: 1px solid #323238;
       border-radius: 12px;
       padding: 20px;
       text-align: center;
       margin-bottom: 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
     }
 
     .live-header h1 { 
@@ -46,7 +65,7 @@ Script novo
       flex-wrap: wrap;
     }
 
-    /* BOTÃO ESTILO TRANSLÚCIDO (IGUAL AS BOLINHAS) */
+    /* BOTÃO ESTILO TRANSLÚCIDO */
     .btn-tiktok-translucido {
       display: inline-flex;
       align-items: center;
@@ -78,11 +97,12 @@ Script novo
     }
 
     .card {
-      background-color: #202024;
+      background-color: rgba(32, 32, 36, 0.9);
       padding: 15px 10px;
       border-radius: 8px;
       margin-bottom: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
     }
 
     .form-group {
@@ -175,7 +195,7 @@ Script novo
       font-size: 0.82rem;
     }
 
-    th { background-color: #29292e; color: #00d4ff; }
+    th { background-color: rgba(41, 41, 46, 0.9); color: #00d4ff; }
 
     th:nth-child(1), td:nth-child(1) { width: 12%; }
     th:nth-child(2), td:nth-child(2) { width: 30%; }
@@ -349,123 +369,131 @@ Script novo
         <label for="elemental">Elemental Escolhido:</label>
         <select id="elemental" required>
           <option value="">Selecione um elemental...</option>
-          <option value="💧 Agua (Normal)">💧 Agua (Normal)</option>
-          <option value="🥇 Agua (Dourado)">🥇 Agua (Dourado)</option>
-          <option value="🫧 Agua (Gelatinoso)">🫧 Agua (Gelatinoso)</option>
           <option value="🌌 Agua (Galatico)">🌌 Agua (Galatico)</option>
+          <option value="🫧 Agua (Gelatinoso)">🫧 Agua (Gelatinoso)</option>
           <option value="⚙️ Agua (Metalizado)">⚙️ Agua (Metalizado)</option>
-          <option value="🌱 Terra (Normal)">🌱 Terra (Normal)</option>
-          <option value="🥇 Terra (Dourado)">🥇 Terra (Dourado)</option>
-          <option value="🫧 Terra (Gelatinoso)">🫧 Terra (Gelatinoso)</option>
-          <option value="🌌 Terra (Galatico)">🌌 Terra (Galatico)</option>
-          <option value="🟪 Terra (Cubo)">🟪 Terra (Cubo)</option>
-          <option value="🔥 Fogo (Normal)">🔥 Fogo (Normal)</option>
-          <option value="🥇 Fogo (Dourado)">🥇 Fogo (Dourado)</option>
-          <option value="🫧 Fogo (Gelatinoso)">🫧 Fogo (Gelatinoso)</option>
-          <option value="🌌 Fogo (Galatico)">🌌 Fogo (Galatico)</option>
-          <option value="⚙️ Fogo (Metalizado)">⚙️ Fogo (Metalizado)</option>
-          <option value="🟪 Fogo (Cubo)">🟪 Fogo (Cubo)</option>
-          <option value="🐟 Peixoto (Normal)">🐟 Peixoto (Normal)</option>
-          <option value="🥇 Peixoto (Dourado)">🥇 Peixoto (Dourado)</option>
-          <option value="🫧 Peixoto (Gelatinoso)">🫧 Peixoto (Gelatinoso)</option>
-          <option value="🌌 Peixoto (Galatico)">🌌 Peixoto (Galatico)</option>
-          <option value="🟪 Peixoto (Cubo)">🟪 Peixoto (Cubo)</option>
-          <option value="🌪️ Ar (Normal)">🌪️ Ar (Normal)</option>
-          <option value="🥇 Ar (Dourado)">🥇 Ar (Dourado)</option>
-          <option value="🫧 Ar (Gelatinoso)">🫧 Ar (Gelatinoso)</option>
-          <option value="🌌 Ar (Galatico)">🌌 Ar (Galatico)</option>
-          <option value="⚙️ Ar (Metalizado)">⚙️ Ar (Metalizado)</option>
-          <option value="🦆 Pato (Normal)">🦆 Pato (Normal)</option>
-          <option value="🥇 Pato (Dourado)">🥇 Pato (Dourado)</option>
-          <option value="🫧 Pato (Gelatinoso)">🫧 Pato (Gelatinoso)</option>
-          <option value="🌌 Pato (Galatico)">🌌 Pato (Galatico)</option>
-          <option value="👻 Fantasminha (Normal)">👻 Fantasminha (Normal)</option>
-          <option value="🥇 Fantasminha (Dourado)">🥇 Fantasminha (Dourado)</option>
-          <option value="🫧 Fantasminha (Gelatinoso)">🫧 Fantasminha (Gelatinoso)</option>
-          <option value="🌌 Fantasminha (Galatico)">🌌 Fantasminha (Galatico)</option>
-          <option value="⚙️ Fantasminha (Metalizado)">⚙️ Fantasminha (Metalizado)</option>
-          <option value="😈 Demonio (Normal)">😈 Demonio (Normal)</option>
-          <option value="🥇 Demonio (Dourado)">🥇 Demonio (Dourado)</option>
-          <option value="🫧 Demonio (Gelatinoso)">🫧 Demonio (Gelatinoso)</option>
-          <option value="🌌 Demonio (Galatico)">🌌 Demonio (Galatico)</option>
-          <option value="👑 Rei (Normal)">👑 Rei (Normal)</option>
-          <option value="🥇 Rei (Dourado)">🥇 Rei (Dourado)</option>
-          <option value="🫧 Rei (Gelatinoso)">🫧 Rei (Gelatinoso)</option>
-          <option value="🌌 Rei (Galatico)">🌌 Rei (Galatico)</option>
-          <option value="⚙️ Rei (Metalizado)">⚙️ Rei (Metalizado)</option>
-          <option value="✨ Aura (Normal)">✨ Aura (Normal)</option>
-          <option value="🥇 Aura (Dourado)">🥇 Aura (Dourado)</option>
-          <option value="🫧 Aura (Gelatinoso)">🫧 Aura (Gelatinoso)</option>
-          <option value="🌌 Aura (Galatico)">🌌 Aura (Galatico)</option>
-          <option value="🏀 Atacante (Normal)">🏀 Atacante (Normal)</option>
-          <option value="🥇 Atacante (Dourado)">🥇 Atacante (Dourado)</option>
-          <option value="🫧 Atacante (Gelatinoso)">🫧 Atacante (Gelatinoso)</option>
-          <option value="🌌 Atacante (Galatico)">🌌 Atacante (Galatico)</option>
-          <option value="⚙️ Atacante (Metalizado)">⚙️ Atacante (Metalizado)</option>
-          <option value="💤 Sonho (Normal)">💤 Sonho (Normal)</option>
-          <option value="🥇 Sonho (Dourado)">🥇 Sonho (Dourado)</option>
-          <option value="🫧 Sonho (Gelatinoso)">🫧 Sonho (Gelatinoso)</option>
-          <option value="🌌 Sonho (Galatico)">🌌 Sonho (Galatico)</option>
-          <option value="🟪 Sonho (Cubo)">🟪 Sonho (Cubo)</option>
-          <option value="🤘 Punk (Normal)">🤘 Punk (Normal)</option>
-          <option value="🥇 Punk (Dourado)">🥇 Punk (Dourado)</option>
-          <option value="🫧 Punk (Gelatinoso)">🫧 Punk (Gelatinoso)</option>
-          <option value="🌌 Punk (Galatico)">🌌 Punk (Galatico)</option>
-          <option value="🟪 Punk (Cubo)">🟪 Punk (Cubo)</option>
-          <option value="💀 Chefe (Normal)">💀 Chefe (Normal)</option>
-          <option value="🥇 Chefe (Dourado)">🥇 Chefe (Dourado)</option>
-          <option value="🫧 Chefe (Gelatinoso)">🫧 Chefe (Gelatinoso)</option>
-          <option value="🌌 Chefe (Galatico)">🌌 Chefe (Galatico)</option>
-          <option value="🟪 Chefe (Cubo)">🟪 Chefe (Cubo)</option>
-          <option value="🛡️ Fundação 7 (Normal)">🛡️ Fundação 7 (Normal)</option>
-          <option value="🥇 Fundação 7 (Dourado)">🥇 Fundação 7 (Dourado)</option>
-          <option value="🫧 Fundação 7 (Gelatinoso)">🫧 Fundação 7 (Gelatinoso)</option>
-          <option value="🌌 Fundação 7 (Galatico)">🌌 Fundação 7 (Galatico)</option>
-          <option value="⚙️ Fundação 7 (Metalizado)">⚙️ Fundação 7 (Metalizado)</option>
-          <option value="🦇 Batman (Normal)">🦇 Batman (Normal)</option>
-          <option value="🥇 Batman (Dourado)">🥇 Batman (Dourado)</option>
-          <option value="🫧 Batman (Gelatinoso)">🫧 Batman (Gelatinoso)</option>
-          <option value="🌌 Batman (Galatico)">🌌 Batman (Galatico)</option>
-          <option value="⚙️ Batman (Metalizado)">⚙️ Batman (Metalizado)</option>
-          <option value="🟪 Batman (Cubo)">🟪 Batman (Cubo)</option>
-          <option value="☠️ Ceifador (Normal)">☠️ Ceifador (Normal)</option>
-          <option value="🥇 Ceifador (Dourado)">🥇 Ceifador (Dourado)</option>
-          <option value="🫧 Ceifador (Gelatinoso)">🫧 Ceifador (Gelatinoso)</option>
-          <option value="🌌 Ceifador (Galatico)">🌌 Ceifador (Galatico)</option>
-          <option value="🟪 Ceifador (Cubo)">🟪 Ceifador (Cubo)</option>
-          <option value="🌀 Ponto Zero (Normal)">🌀 Ponto Zero (Normal)</option>
-          <option value="🥇 Ponto Zero (Dourado)">🥇 Ponto Zero (Dourado)</option>
-          <option value="🫧 Ponto Zero (Gelatinoso)">🫧 Ponto Zero (Gelatinoso)</option>
-          <option value="🌌 Ponto Zero (Galatico)">🌌 Ponto Zero (Galatico)</option>
-          <option value="🥜 Amendoim (Burnout Peanut)">🥜 Amendoim (Burnout Peanut)</option>
-          <option value="⚽ Vini JR">⚽ Vini JR</option>
-          <option value="🐥 Pollo (Pintinho)">🐥 Pollo (Pintinho)</option>
+          <option value="🥇 Agua (Dourado)">🥇 Agua (Dourado)</option>
+          <option value="💎 Agua Gema">💎 Agua Gema</option>
+          <option value="💧 Agua (Normal)">💧 Agua (Normal)</option>
           <option value="💧🦆 Agua Quack">💧🦆 Agua Quack</option>
-          <option value="🔥🦆 Fogo Quack">🔥🦆 Fogo Quack</option>
-          <option value="🌍🦆 Terra Quack">🌍🦆 Terra Quack</option>
-          <option value="🦙 Lhama">🦙 Lhama</option>
-          <option value="✨🦙 Lhama Dourada">✨🦙 Lhama Dourada</option>
-          <option value="🧪🦙 Lhama Gelatinosa">🧪🦙 Lhama Gelatinosa</option>
-          <option value="🌌🦙 Lhama Galática">🌌🦙 Lhama Galática</option>
-          <option value="💎🦙 Lhama Gema">💎🦙 Lhama Gema</option>
-          <option value="🍌 Banana Normal">🍌 Banana Normal</option>
-          <option value="✨🍌 Banana Dourada">✨🍌 Banana Dourada</option>
-          <option value="🧪🍌 Banana Gelatinosa">🧪🍌 Banana Gelatinosa</option>
+          <option value="🥜 Amendoim (Burnout Peanut)">🥜 Amendoim (Burnout Peanut)</option>
+          <option value="🌌 Ar (Galatico)">🌌 Ar (Galatico)</option>
+          <option value="🫧 Ar (Gelatinoso)">🫧 Ar (Gelatinoso)</option>
+          <option value="⚙️ Ar (Metalizado)">⚙️ Ar (Metalizado)</option>
+          <option value="🥇 Ar (Dourado)">🥇 Ar (Dourado)</option>
+          <option value="🌪️ Ar (Normal)">🌪️ Ar (Normal)</option>
+          <option value="🌌 Atacante (Galatico)">🌌 Atacante (Galatico)</option>
+          <option value="🫧 Atacante (Gelatinoso)">🫧 Atacante (Gelatinoso)</option>
+          <option value="⚙️ Atacante (Metalizado)">⚙️ Atacante (Metalizado)</option>
+          <option value="🥇 Atacante (Dourado)">🥇 Atacante (Dourado)</option>
+          <option value="🏀 Atacante (Normal)">🏀 Atacante (Normal)</option>
+          <option value="🌌 Aura (Galatico)">🌌 Aura (Galatico)</option>
+          <option value="🫧 Aura (Gelatinoso)">🫧 Aura (Gelatinoso)</option>
+          <option value="🥇 Aura (Dourado)">🥇 Aura (Dourado)</option>
+          <option value="💎 Aura Gema">💎 Aura Gema</option>
+          <option value="✨ Aura (Normal)">✨ Aura (Normal)</option>
           <option value="🌌🍌 Banana Galatica">🌌🍌 Banana Galatica</option>
+          <option value="🧪🍌 Banana Gelatinosa">🧪🍌 Banana Gelatinosa</option>
           <option value="⚙️🍌 Banana Metalizado">⚙️🍌 Banana Metalizado</option>
-          <option value="🌀🦆 Ponto Zero Quack">🌀🦆 Ponto Zero Quack</option>
-          <option value="⚙️🌀 Ponto Zero Metalizado">⚙️🌀 Ponto Zero Metalizado</option>
-          <option value="🟪🌀 Ponto Zero Cúbico">🟪🌀 Ponto Zero Cúbico</option>
+          <option value="✨🍌 Banana Dourada">✨🍌 Banana Dourada</option>
+          <option value="🍌 Banana Normal">🍌 Banana Normal</option>
+          <option value="🟪 Batman (Cubo)">🟪 Batman (Cubo)</option>
+          <option value="🌌 Batman (Galatico)">🌌 Batman (Galatico)</option>
+          <option value="🫧 Batman (Gelatinoso)">🫧 Batman (Gelatinoso)</option>
+          <option value="⚙️ Batman (Metalizado)">⚙️ Batman (Metalizado)</option>
+          <option value="🥇 Batman (Dourado)">🥇 Batman (Dourado)</option>
+          <option value="🦇 Batman (Normal)">🦇 Batman (Normal)</option>
+          <option value="🟪 Ceifador (Cubo)">🟪 Ceifador (Cubo)</option>
+          <option value="🌌 Ceifador (Galatico)">🌌 Ceifador (Galatico)</option>
+          <option value="🫧 Ceifador (Gelatinoso)">🫧 Ceifador (Gelatinoso)</option>
           <option value="💀⚙️ Ceifador Metalizado">💀⚙️ Ceifador Metalizado</option>
+          <option value="🥇 Ceifador (Dourado)">🥇 Ceifador (Dourado)</option>
+          <option value="💎 Ceifador Gema">💎 Ceifador Gema</option>
+          <option value="☠️ Ceifador (Normal)">☠️ Ceifador (Normal)</option>
+          <option value="🟪 Chefe (Cubo)">🟪 Chefe (Cubo)</option>
+          <option value="🌌 Chefe (Galatico)">🌌 Chefe (Galatico)</option>
+          <option value="🫧 Chefe (Gelatinoso)">🫧 Chefe (Gelatinoso)</option>
+          <option value="🥇 Chefe (Dourado)">🥇 Chefe (Dourado)</option>
+          <option value="💀 Chefe (Normal)">💀 Chefe (Normal)</option>
+          <option value="🌌 Demonio (Galatico)">🌌 Demonio (Galatico)</option>
+          <option value="🫧 Demonio (Gelatinoso)">🫧 Demonio (Gelatinoso)</option>
+          <option value="🥇 Demonio (Dourado)">🥇 Demonio (Dourado)</option>
+          <option value="💎 Demonio Gema">💎 Demonio Gema</option>
+          <option value="😈 Demonio (Normal)">😈 Demonio (Normal)</option>
+          <option value="🌌 Fantasminha (Galatico)">🌌 Fantasminha (Galatico)</option>
+          <option value="🫧 Fantasminha (Gelatinoso)">🫧 Fantasminha (Gelatinoso)</option>
+          <option value="⚙️ Fantasminha (Metalizado)">⚙️ Fantasminha (Metalizado)</option>
+          <option value="🥇 Fantasminha (Dourado)">🥇 Fantasminha (Dourado)</option>
+          <option value="👻 Fantasminha (Normal)">👻 Fantasminha (Normal)</option>
+          <option value="🟪 Fogo (Cubo)">🟪 Fogo (Cubo)</option>
+          <option value="🌌 Fogo (Galatico)">🌌 Fogo (Galatico)</option>
+          <option value="🫧 Fogo (Gelatinoso)">🫧 Fogo (Gelatinoso)</option>
+          <option value="⚙️ Fogo (Metalizado)">⚙️ Fogo (Metalizado)</option>
+          <option value="🥇 Fogo (Dourado)">🥇 Fogo (Dourado)</option>
+          <option value="🔥 Fogo (Normal)">🔥 Fogo (Normal)</option>
+          <option value="🔥🦆 Fogo Quack">🔥🦆 Fogo Quack</option>
+          <option value="🌌 Fundação 7 (Galatico)">🌌 Fundação 7 (Galatico)</option>
+          <option value="🫧 Fundação 7 (Gelatinoso)">🫧 Fundação 7 (Gelatinoso)</option>
+          <option value="⚙️ Fundação 7 (Metalizado)">⚙️ Fundação 7 (Metalizado)</option>
+          <option value="🥇 Fundação 7 (Dourado)">🥇 Fundação 7 (Dourado)</option>
+          <option value="🛡️ Fundação 7 (Normal)">🛡️ Fundação 7 (Normal)</option>
+          <option value="🐭 IronMouse">🐭 IronMouse</option>
           <option value="🕶️ John Wick">🕶️ John Wick</option>
+          <option value="🌌🦙 Lhama Galática">🌌🦙 Lhama Galática</option>
+          <option value="🧪🦙 Lhama Gelatinosa">🧪🦙 Lhama Gelatinosa</option>
+          <option value="💎🦙 Lhama Gema">💎🦙 Lhama Gema</option>
+          <option value="✨🦙 Lhama Dourada">✨🦙 Lhama Dourada</option>
+          <option value="🦙 Lhama">🦙 Lhama</option>
+          <option value="🌌 Pato (Galatico)">🌌 Pato (Galatico)</option>
+          <option value="🫧 Pato (Gelatinoso)">🫧 Pato (Gelatinoso)</option>
+          <option value="🥇 Pato (Dourado)">🥇 Pato (Dourado)</option>
+          <option value="💎 Pato Gema">💎 Pato Gema</option>
+          <option value="🦆 Pato (Normal)">🦆 Pato (Normal)</option>
+          <option value="🟪 Peixoto (Cubo)">🟪 Peixoto (Cubo)</option>
+          <option value="🌌 Peixoto (Galatico)">🌌 Peixoto (Galatico)</option>
+          <option value="🫧 Peixoto (Gelatinoso)">🫧 Peixoto (Gelatinoso)</option>
+          <option value="🥇 Peixoto (Dourado)">🥇 Peixoto (Dourado)</option>
+          <option value="🐟 Peixoto (Normal)">🐟 Peixoto (Normal)</option>
+          <option value="🐥 Pollo (Pintinho)">🐥 Pollo (Pintinho)</option>
+          <option value="🟪🌀 Ponto Zero Cúbico">🟪🌀 Ponto Zero Cúbico</option>
+          <option value="🌌 Ponto Zero (Galatico)">🌌 Ponto Zero (Galatico)</option>
+          <option value="🫧 Ponto Zero (Gelatinoso)">🫧 Ponto Zero (Gelatinoso)</option>
+          <option value="⚙️🌀 Ponto Zero Metalizado">⚙️🌀 Ponto Zero Metalizado</option>
+          <option value="🥇 Ponto Zero (Dourado)">🥇 Ponto Zero (Dourado)</option>
+          <option value="💎 Ponto Zero Gema">💎 Ponto Zero Gema</option>
+          <option value="🌀 Ponto Zero (Normal)">🌀 Ponto Zero (Normal)</option>
+          <option value="🌀🦆 Ponto Zero Quack">🌀🦆 Ponto Zero Quack</option>
+          <option value="🟪 Punk (Cubo)">🟪 Punk (Cubo)</option>
+          <option value="🌌 Punk (Galatico)">🌌 Punk (Galatico)</option>
+          <option value="🫧 Punk (Gelatinoso)">🫧 Punk (Gelatinoso)</option>
+          <option value="🥇 Punk (Dourado)">🥇 Punk (Dourado)</option>
+          <option value="🤘 Punk (Normal)">🤘 Punk (Normal)</option>
+          <option value="🌌 Rei (Galatico)">🌌 Rei (Galatico)</option>
+          <option value="🫧 Rei (Gelatinoso)">🫧 Rei (Gelatinoso)</option>
+          <option value="⚙️ Rei (Metalizado)">⚙️ Rei (Metalizado)</option>
+          <option value="🥇 Rei (Dourado)">🥇 Rei (Dourado)</option>
+          <option value="👑 Rei (Normal)">👑 Rei (Normal)</option>
+          <option value="🟪 Sonho (Cubo)">🟪 Sonho (Cubo)</option>
+          <option value="🌌 Sonho (Galatico)">🌌 Sonho (Galatico)</option>
+          <option value="🫧 Sonho (Gelatinoso)">🫧 Sonho (Gelatinoso)</option>
+          <option value="🥇 Sonho (Dourado)">🥇 Sonho (Dourado)</option>
+          <option value="💤 Sonho (Normal)">💤 Sonho (Normal)</option>
+          <option value="🟪 Terra (Cubo)">🟪 Terra (Cubo)</option>
+          <option value="🌌 Terra (Galatico)">🌌 Terra (Galatico)</option>
+          <option value="🫧 Terra (Gelatinoso)">🫧 Terra (Gelatinoso)</option>
+          <option value="🥇 Terra (Dourado)">🥇 Terra (Dourado)</option>
+          <option value="💎 Terra Gema">💎 Terra Gema</option>
+          <option value="🌱 Terra (Normal)">🌱 Terra (Normal)</option>
+          <option value="🌍🦆 Terra Quack">🌍🦆 Terra Quack</option>
+          <option value="⚽ Vini JR">⚽ Vini JR</option>
         </select>
       </div>
 
       <button type="submit" class="btn-principal">Entrar na Fila</button>
       
-      <!-- AVISO PIX COM O TEXTO EXATO E O BOTÃO NO FINAL -->
+      <!-- AVISO PIX COM O TEXTO ATUALIZADO -->
       <div class="aviso-pix-container">
-        <span class="aviso-pix">Clique no botão Roxo da Live P!X e "Fure a Fila", a fila ainda segue de acordo!</span>
+        <span class="aviso-pix">Clique no botão Roxo da Live P!X e Fure a Fila por R$5,00 para cada elemental, a fila ainda segue de acordo!</span>
         <a href="https://livepix.gg/walkblade" target="_blank" class="btn-live-pix">⚡ Live P!X</a>
       </div>
     </form>
@@ -517,7 +545,7 @@ Script novo
     let isAdmin = false;
     let filaAberta = true;
     const SENHA_ADMIN = "1574";
-    const TEMPO_ESPERA_MS = 5 * 60 * 1000; // 5 minutos em milissegundos
+    const TEMPO_ESPERA_MS = 5 * 60 * 1000;
 
     const form = document.getElementById('filaForm');
     let listaKeys = []; 
@@ -554,7 +582,7 @@ Script novo
         btnSubmit.style.cursor = "pointer";
         btnSubmit.innerText = "Entrar na Fila";
         avisoPixDiv.innerHTML = `
-          <span class="aviso-pix">Clique no botão Roxo da Live P!X e "Fure a Fila", a fila ainda segue de acordo!</span>
+          <span class="aviso-pix">Clique no botão Roxo da Live P!X e Fure a Fila por R$5,00 para cada elemental, a fila ainda segue de acordo!</span>
           <a href="https://livepix.gg/walkblade" target="_blank" class="btn-live-pix">⚡ Live P!X</a>
         `;
       }
@@ -568,7 +596,6 @@ Script novo
         return;
       }
 
-      // Validação de tempo de espera (Cooldown) de 5 minutos para o usuário comum (Admin ignora isso)
       if (!isAdmin) {
         const ultimoEnvio = localStorage.getItem('ultimo_envio_fila');
         if (ultimoEnvio) {
@@ -593,7 +620,6 @@ Script novo
         furaFilaOrder: 0,
         timestamp: Date.now()
       }).then(() => {
-        // Salva o horário atual no navegador do usuário
         if (!isAdmin) {
           localStorage.setItem('ultimo_envio_fila', Date.now().toString());
         }
@@ -664,7 +690,7 @@ Script novo
             <button class="badge-base btn-action btn-fura" onclick="furarFilaJogador(${index})">
               ${btnFuraTexto}
             </button>
-            <button class="badge-base btn-action btn-editar" onclick="editarElemental(${index})">✏️ Editar</button>
+            <button class="badge-base btn-action btn-editar" onclick="editarDadosJogador(${index})">✏️ Editar Nick/Elemental</button>
             <button class="badge-base btn-action btn-finalizar" onclick="removerJogador(${index})">Finalizar 🠳</button>
           `;
 
@@ -757,13 +783,18 @@ Script novo
       }
     };
 
-    window.editarElemental = function(index) {
+    window.editarDadosJogador = function(index) {
       const key = listaKeys[index];
-      const novoElemental = prompt(`Digite exatamente o novo elemental para ${filaLocal[index].nick}:`, filaLocal[index].elemental);
+      const novoNick = prompt("Digite o novo Nickname / Epic ID:", filaLocal[index].nick);
+      if (novoNick === null || novoNick.trim() === "") return;
 
-      if (novoElemental !== null && novoElemental.trim() !== "") {
-        update(ref(db, `fila/${key}`), { elemental: novoElemental });
-      }
+      const novoElemental = prompt("Digite o novo Elemental:", filaLocal[index].elemental);
+      if (novoElemental === null || novoElemental.trim() === "") return;
+
+      update(ref(db, `fila/${key}`), { 
+        nick: novoNick.trim(),
+        elemental: novoElemental.trim()
+      });
     };
 
     window.removerJogador = function(index) {
